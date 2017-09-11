@@ -12,5 +12,8 @@ libraryDependencies ++= Seq(
   "org.apache.bahir" %% "spark-streaming-twitter" % "2.1.0",
   "joda-time" % "joda-time" % "2.9.9",
   "org.json4s" %% "json4s-native" % "3.5.3",
-  "org.json4s" %% "json4s-jackson" % "3.5.3"
+  "org.json4s" %% "json4s-jackson" % "3.5.3",
+  "org.scalanlp" %% "breeze" % "0.11.2",
+  "org.scalanlp" %% "breeze-viz" % "0.11.2",
+  "org.scalanlp" %% "breeze-natives" % "0.11.2"
 )
