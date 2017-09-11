@@ -1,5 +1,6 @@
 # **Spark Experiments**
-This repository explores spark and machine learning using different languages like Scala and Python. The idea is to compare and contrast the libraries support available for each language, ease of development and other factors.
+This repository explores spark and machine learning using different languages like Scala and Python. The idea is to compare and contrast the libraries support available for each language, ease of development and other factors. The basic concept behind the project is to do Twitter Sentiment Analysis, using Twtiiter4j libraries, filter the tweets based on various predicates, and plot graphs like Tweets received per time window, number of times a particular word occurs in tweets etc. 
+The goal is to provide a notebook kind of environment, by integrating all the relevant plotting libraries for visualization, hooking the twitter stream data obtained through spark streaming. By doing this we hope to understand the differences between corresponding libraries for each technology and draw some conclusions regarding the relative popularity of certain libraries in ML space.
 
 ### Scala
 
