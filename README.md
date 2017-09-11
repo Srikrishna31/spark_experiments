@@ -1,5 +1,5 @@
 # **Spark Experiments**
-This repository explores spark and machine learning using different languages like Scala and Python.
+This repository explores spark and machine learning using different languages like Scala and Python. The idea is to compare and contrast the libraries support available for each language, ease of development and other factors.
 
 ### Scala
 
