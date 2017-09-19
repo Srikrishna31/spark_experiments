@@ -15,7 +15,7 @@ class MYListener(StreamListener):
         try:
             #time = datetime.datetime()
             #time.
-            with open('python.json', 'a') as f:
+            with open(time.strftime('%Y%m%d-%H%M%S') + '.json', 'a') as f:
                 f.write(data)
                 return True
         except BaseException as e:
