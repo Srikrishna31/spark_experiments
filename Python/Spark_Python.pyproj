@@ -12,8 +12,7 @@
     <Name>Spark_Python</Name>
     <RootNamespace>Spark_Python</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>
-    </CommandLineArguments>
+    <CommandLineArguments>"tdSFWWjHvlWp8dLrL5W4dHDkt"  "Hce7zsiQFEiaJWGTB8lBCDwTwKvRqYDZmm4zWlLOmRSvRdYFxm"   "434013652-wCbJNB3Vm0TI4wVE44cVXWPmRfogpC3gKyIGnJmX"   "yDWKA0gxrwQwA8uv7Wi4qdQwN8uOgv0G1yTGgl9bVBQfm"</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
