@@ -60,8 +60,8 @@ def start_spark_streaming():
     #The RDD will be created every 10 seconds, but the data in RDD will be for the last 20 seconds.
     lines = stream.window(20)
     lines.map(lambda text: json.loads(text))  \
-         .map(lambda t: Tweet(t['text'], t['user'], t['id'], t['createdAt'], t['retweetCount'], t['location'], t['language']))
-         #.forEachRDD(lambda rdd: rdd.)
+         .map(lambda t: Tweet(t['text'], t['user'], t['id'], t['createdAt'], t['retweetCount'], t['location'], t['language'])) \
+         .foreachRDD(lambda rdd: print(rdd))
 
 
     ssc.start() 
