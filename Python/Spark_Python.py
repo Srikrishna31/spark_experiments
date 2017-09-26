@@ -26,7 +26,7 @@ class MyListener(StreamListener):
 
     def on_data(self, data):
         try:
-            self.c_socket.send(json.loads(data).encode('utf-8'))
+            self.c_socket.send(str(data).encode('utf-8'))
             return True
         except BaseException as e:
             print("Error on_data: " + str(e))
@@ -45,10 +45,10 @@ def create_twitter_stream(consumerKey, consumerSecret, accessToken, accessTokenS
     auth = OAuthHandler(consumerKey, consumerSecret)
     auth.set_access_token(accessToken, accessTokenSecret)
     c, _  = s.accept() #need to see if _ works.
-    twitter_stream= Stream(auth, MyListener(s))
+    twitter_stream= Stream(auth, MyListener(c))
     #As per this link, we cant just filter by language with free access, so this is a workaround suggested.
     #https://stackoverflow.com/questions/26890605/filter-twitter-feeds-only-by-language
-    twitter_stream.filter(track=['a'], languages=["en"], async=True)
+    twitter_stream.filter(track=['a'], languages=["en"])
 
 
 def start_spark_streaming():
@@ -59,10 +59,11 @@ def start_spark_streaming():
 
     #The RDD will be created every 10 seconds, but the data in RDD will be for the last 20 seconds.
     lines = stream.window(20)
+    print(lines.count)
     lines.map(lambda text: json.loads(text))  \
-         .map(lambda t: Tweet(t['text'], t['user'], t['id'], t['createdAt'], t['retweetCount'], t['location'], t['language'])) \
-         .foreachRDD(lambda rdd: print(rdd))
-
+         .map(lambda t: Tweet(t['text'], t['user']['name'], t['id'], t['created_at'], t['retweet_count'], t['user']['location'], t['lang'])) \
+         .saveAsTextFiles('D:/TwitterStreamData/' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S') + '.json')
+         #.foreachRDD(lambda rdd: print(rdd))
 
     ssc.start() 
     ssc.awaitTermination()
