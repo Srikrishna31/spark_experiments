@@ -52,10 +52,13 @@ object TwitterStream extends App {
   System.setProperty("twitter4j.oauth.consumerSecret", args(1))
   System.setProperty("twitter4j.oauth.accessToken", args(2))
   System.setProperty("twitter4j.oauth.accessTokenSecret", args(3))
-  System.setProperty("twitter4j.http.proxyHost", "www-proxy.idc.oracle.com")
-  System.setProperty("twitter4j.http.proxyPort", "80")
+//  System.setProperty("twitter4j.http.proxyHost", "www-proxy.idc.oracle.com")
+//  System.setProperty("twitter4j.http.proxyPort", "80")
 
   val stream = TwitterUtils.createStream(s, None).filter(_.getLang == "en")
+
+
+  //s.queueStream()
   stream.count.print
 
   implicit val formats = Serialization.formats(NoTypeHints)

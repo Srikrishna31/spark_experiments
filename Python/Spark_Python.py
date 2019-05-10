@@ -2,6 +2,7 @@
 Code in this file is taken from the following sites:
 https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/
 http://www.awesomestats.in/spark-twitter-stream/
+http://mkuthan.github.io/blog/2015/03/01/spark-unit-testing/ - In memory DStream, RDD creation.
 '''
 
 from tweepy import Stream, OAuthHandler
@@ -50,6 +51,22 @@ def create_twitter_stream(consumerKey, consumerSecret, accessToken, accessTokenS
     #https://stackoverflow.com/questions/26890605/filter-twitter-feeds-only-by-language
     twitter_stream.filter(track=['a'], languages=["en"])
 
+def load_text(text):
+    t = json.loads(text, encoding='utf-8')
+    #print(t.to_bytes()
+    return t
+
+def tweet(t):
+    print("****************************************" + str(type(t)))
+    print(str(t).encode('utf-8'))
+    assert(str(type(t) == "dict"))
+    twt = Tweet(t['text'], t['user']['name'], t['id'], t['created_at'], t['retweet_count'], t['user']['location'], t['lang'])
+    return twt
+
+def rdd_to_tweet(text):
+    js = json.loads(text, encoding='utf-8')
+    t = tweet(js)
+    return json.dumps(t, ensure_ascii=False)
 
 def start_spark_streaming():
     sc = SparkContext("local[3]", "Spark-Python")
@@ -60,9 +77,10 @@ def start_spark_streaming():
     #The RDD will be created every 10 seconds, but the data in RDD will be for the last 20 seconds.
     lines = stream.window(20)
     print(lines.count)
-    lines.map(lambda text: json.loads(text))  \
-         .map(lambda t: Tweet(t['text'], t['user']['name'], t['id'], t['created_at'], t['retweet_count'], t['user']['location'], t['lang'])) \
-         .saveAsTextFiles('D:/TwitterStreamData/' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S') + '.json')
+    lines.foreachRDD(lambda rdd: rdd.filter(rdd_to_tweet).coalesce(1).saveAsTextFile('D:/TwitterStreamData/' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S') + '.json'))
+    #lines.flatMap(load_text)  \
+    #     .map(tweet) \
+    #     .saveAsTextFiles('D:/TwitterStreamData/' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S') + '.json')
          #.foreachRDD(lambda rdd: print(rdd))
 
     ssc.start() 
